@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # configs
 
-app.config.from_object(Production)
+app.config.from_object(Development)
 
 # sqlAlchemy instance
 
@@ -71,27 +71,28 @@ def insert_inventory():
 def sales():
     sales = SalesModel.query.all()
     if request.method == 'POST':
-        quantity = request.form['quantity']
-        inventoryId = request.form['inventoryId']
+        quantity = request.form['Quantity']
+        inventoryId = request.form['InventoryId']
 
-        sales = SalesModel(Quantity=quantity, inventoryId=inventoryId)
+        sales = SalesModel(Quantity=quantity, InventoryId=inventoryId)
         sales.create_record()
-    InventoryModel.update_stock(int(inventoryId), int(quantity))
-    return redirect(url_for('inventory'))
+        InventoryModel.update_inventory(int(inventoryId), int(quantity))
 
     return redirect(url_for('inventory'))
 
+    return redirect(url_for('inventory'))
 
-# @app.route('/view_sales/<int:id>',methods = ['GET'])
-# def view_sales(id):
-#     inve = InventoryModel.get_inventory_by_id(id)
-#
-#     #print(inve.sale)
-#     #print(type(inve))
-#
-#     sale_of_product = inve.sale
-#
-#     return render_template('sales.html',s_o_p=sale_of_product)
+
+@app.route('/view_sales/<int:id>',methods = ['GET'])
+def view_sales(id):
+    inventory = InventoryModel.get_inventory_by_id(id)
+
+    #print(inventory.sale)
+    #print(type(inve))
+
+    sale_of_product = inventory.sale
+
+    return render_template('inventory.html',s_o_p=sale_of_product)
 
 
 if __name__ == '__main__':
