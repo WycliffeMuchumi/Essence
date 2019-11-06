@@ -28,7 +28,7 @@ class InventoryModel(db.Model):
     def update_inventory(cls, id, quantity):
         record = InventoryModel.query.filter_by(id=id).first()
         if record:
-            record.Stock -= quantity
+            record = record.Stock - quantity
             db.session.commit()
             return True
 

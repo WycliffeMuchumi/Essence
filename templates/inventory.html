@@ -80,66 +80,71 @@
             <th scope="col">Stock</th>
             <th scope="col">ReorderPoint</th>
             <th scope="col">sell</th>
-            <th scope="col">View Sales</th>
+            <th scope="col">ViewSales</th>
         </tr>
         </thead>
         <tbody>
-        {% for inventory in inventories %}
-            <td>
-                <td>{{ inventory.id }}</td>
-                <td>{{ inventory.ProductName }}</td>
-                <td>{{ inventory.ProductType }}</td>
-                <td>{{ inventory.SerialNumber }}</td>
-                <td>{{ inventory.BuyingPrice }}</td>
-                <td>{{ inventory.SellingPrice }}</td>
-                <td {% if(inventory.Stock > inventory.ReorderPoint) %} class="bg-success" {% else %}
-                                                                       class="bg-danger" {% endif %}>
+        <ul class="list-group">
+            {% for inventory in inventories %}
+                <tr>
+                    <th scope="row">{{ inventory.id }}</th>
+                    <td>{{ inventory.ProductName }}</td>
+                    <td>{{ inventory.ProductType }}</td>
+                    <td>{{ inventory.SerialNumber }}</td>
+                    <td>{{ inventory.BuyingPrice }}</td>
+                    <td>{{ inventory.SellingPrice }}</td>
+                    <td {% if(inventory.Stock > inventory.ReorderPoint) %} class="bg-success" {% else %}
+                                                                           class="bg-danger" {% endif %}>
 
 
-                    {{ inventory.Stock }}</td>
-                <td>{{ inventory.ReorderPoint }}</td>
-                <td>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleSale">sell
-                    </button>
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleSale" tabindex="-1" role="dialog"
-                         aria-labelledby="exampleSale"
-                         aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Sell Item</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
+                        {{ inventory.Stock }}</td>
+                    <td>{{ inventory.ReorderPoint }}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#exampleSale{{ inventory.id }}">sell
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleSale{{ inventory.id }}" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleSale"
+                             aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Sell Item</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
                                     <div class="modal-body">
-                                        <form action="/sell" method='POST'>
-                                            <div class="form-group">
-                                                <label for="inventoryId">InventoryId</label>
-                                                <input name="InventoryId" type="hidden" value="{{ inventory.id }}" class="form-control" name="InventoryId"
-                                                       id="InventoryId"
-                                                       placeholder="Enter InventoryId">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="Quantity">Quantity</label>
-                                                <input type="number" class="form-control" name="Quantity" id="Quantity"
-                                                       placeholder="Enter Quantity">
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Sell</button>
-                                        </form>
+                                        <div class="modal-body">
+                                            <form action="/sell" method='POST'>
+                                                <div class="form-group">
+                                                    <label for="inventoryId">InventoryId</label>
+                                                    <input name="InventoryId" type="hidden" value="{{ inventory.id }}"
+                                                           class="form-control" name="InventoryId"
+                                                           id="InventoryId"
+                                                           placeholder="Enter InventoryId">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="Quantity">Quantity</label>
+                                                    <input type="number" class="form-control" name="Quantity"
+                                                           id="Quantity"
+                                                           placeholder="Enter Quantity">
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Sell</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </td>
-            <td>
-                <a class="" href= "/view_sales'/{{inventory.id}}">View Sales</a>
-            </td>
-            </tr>
-        {% endfor %}
+                    </td>
+                    <td>
+                        <a class="" href="/view_sales/{{ inventory.id }}">View Sales</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </ul>
         </tbody>
     </table>
 {% endblock %}

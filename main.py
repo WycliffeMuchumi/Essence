@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # configs
 
-app.config.from_object(Production)
+app.config.from_object(Development)
 
 # sqlAlchemy instance
 
@@ -26,15 +26,10 @@ def create_table():
 def home():
     return render_template('index.html')
 
+@app.route('/faqs')
+def faqs():
+    return render_template('faqs.html')
 
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
-
-@app.route('/contacts')
-def contacts():
-    return render_template('contacts.html')
 
 @app.route('/inventory')
 def inventory():
@@ -74,8 +69,8 @@ def sales():
         quantity = request.form['Quantity']
         inventoryId = request.form['InventoryId']
 
-        sales = SalesModel(Quantity=quantity, InventoryId=inventoryId)
-        sales.create_record()
+        sale = SalesModel(Quantity=quantity, InventoryId=inventoryId)
+        sale.create_record()
         InventoryModel.update_inventory(int(inventoryId), int(quantity))
 
     return redirect(url_for('inventory'))
@@ -92,7 +87,16 @@ def view_sales(id):
 
     sale_of_product = inventory.sale
 
-    return render_template('inventory.html',s_o_p=sale_of_product)
+    return render_template('sales.html',s_o_p=sale_of_product)
+
+
+
+
+@app.route('/contacts')
+def contacts():
+    return render_template('contacts.html')
+
+
 
 
 if __name__ == '__main__':

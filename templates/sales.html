@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}sales{% endblock %}
+
+{% block content %}
+
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+
+
+            <th scope="col">Sales ID</th>
+            <th scope="col">Quantity</th>
+
+
+
+        </tr>
+        </thead>
+        <tbody>
+
+        <ul class="list-group">
+        {% for inventory in s_o_p %}
+                <tr>
+                    <th scope="row">{{ inventory.id }}</th>
+                    <th scope="row">{{ inventory.quantity }}</th>
+
+
+
+                </tr>
+        {% endfor %}
+
+
+
+        </ul>
+        </tbody>
+    </table>
+
+
+{% endblock %}

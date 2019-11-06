@@ -1,4 +1,4 @@
-.nav{
-    background-color: darkblue;
-    font-family: "SansSerif","Times New Roman";
+.navbar navbar-expand-lg navbar-light fixed-top{
+    background-color: green;
+    font-family: "sans-serif";
 }
