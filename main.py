@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # configs
 
-app.config.from_object(Production)
+app.config.from_object(Development)
 
 # sqlAlchemy instance
 
