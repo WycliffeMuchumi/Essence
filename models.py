@@ -43,3 +43,5 @@ class SalesModel(db.Model):
         db.session.add(self)
         db.session.commit()
 
+
+

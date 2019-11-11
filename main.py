@@ -26,9 +26,9 @@ def create_table():
 def home():
     return render_template('index.html')
 
-@app.route('/faqs')
-def faqs():
-    return render_template('faqs.html')
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 
 @app.route('/inventory')
