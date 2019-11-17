@@ -68,7 +68,7 @@
 
 
 
-    <table class="table">
+    <table class="table" id="myTable">
         <thead class="thead-dark">
         <tr>
             <th scope="col">#</th>
@@ -88,17 +88,17 @@
             {% for inventory in inventories %}
                 <tr>
                     <th scope="row">{{ inventory.id }}</th>
-                    <td>{{ inventory.ProductName }}</td>
-                    <td>{{ inventory.ProductType }}</td>
-                    <td>{{ inventory.SerialNumber }}</td>
-                    <td>{{ inventory.BuyingPrice }}</td>
-                    <td>{{ inventory.SellingPrice }}</td>
-                    <td {% if(inventory.Stock > inventory.ReorderPoint) %} class="bg-success" {% else %}
+                    <td>{{ inventory.productname }}</td>
+                    <td>{{ inventory.producttype }}</td>
+                    <td>{{ inventory.serialnumber }}</td>
+                    <td>{{ inventory.buyingprice }}</td>
+                    <td>{{ inventory.sellingprice }}</td>
+                    <td {% if(inventory.stock > inventory.reorderpoint) %} class="bg-success" {% else %}
                                                                            class="bg-danger" {% endif %}>
 
 
-                        {{ inventory.Stock }}</td>
-                    <td>{{ inventory.ReorderPoint }}</td>
+                        {{ inventory.stock }}</td>
+                    <td>{{ inventory.reorderPoint }}</td>
                     <td>
                         <button type="button" class="btn btn-primary" data-toggle="modal"
                                 data-target="#exampleSale{{ inventory.id }}">sell
@@ -120,14 +120,14 @@
                                             <form action="/sell" method='POST'>
                                                 <div class="form-group">
                                                     <label for="inventoryId">InventoryId</label>
-                                                    <input name="InventoryId" type="hidden" value="{{ inventory.id }}"
-                                                           class="form-control" name="InventoryId"
+                                                    <input name="inventoryid" type="hidden" value="{{ inventory.id }}"
+                                                           class="form-control" name="inventoryid"
                                                            id="InventoryId"
                                                            placeholder="Enter InventoryId">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="Quantity">Quantity</label>
-                                                    <input type="number" class="form-control" name="Quantity"
+                                                    <input type="number" class="form-control" name="quantity"
                                                            id="Quantity"
                                                            placeholder="Enter Quantity">
                                                 </div>

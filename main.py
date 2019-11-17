@@ -20,11 +20,19 @@ from models import *
 @app.before_first_request
 def create_table():
     db.create_all()
+    # db.drop_all()
 
 
 @app.route('/')
 def home():
-    return render_template('inventory.html')
+    return render_template('index.html')
+        # pie_chart = pygal.Pie()
+        # pie_chart.title = 'Browser usage in February 2012 (in %)'
+        # pie_chart.add('product', InventoryModel.getTypeCount("product"))
+        # pie_chart.add('service', InventoryModel.getTypeCount("service"))
+        # pie_type = pie_chart.render_data_uri()
+        # return render_template('index.html', pie_type=pie_type)
+
 
 @app.route('/about')
 def about():
@@ -53,8 +61,7 @@ def insert_inventory():
         print(sp)
         print(s)
         print(rp)
-        product_one = InventoryModel(ProductName=pn, ProductType=pt, SerialNumber=sn, BuyingPrice=bp, SellingPrice=sp,
-                                     Stock=s, ReorderPoint=rp)
+        product_one = InventoryModel(productname=pn, producttype=pt, serialnumber=sn, buyingprice=bp, sellingprice=sp, stock=s, reorderpoint=rp)
         product_one.create_record()
 
         return redirect(url_for('inventory'))
@@ -66,16 +73,15 @@ def insert_inventory():
 def sales():
     sales = SalesModel.query.all()
     if request.method == 'POST':
-        quantity = request.form['Quantity']
-        inventoryId = request.form['InventoryId']
+        quantity = request.form['quantity']
+        inventoryid = request.form['inventoryid']
 
-        sale = SalesModel(Quantity=quantity, InventoryId=inventoryId)
+        sale = SalesModel(quantity=quantity, inventoryid=inventoryid)
         sale.create_record()
-        InventoryModel.update_inventory(int(inventoryId), int(quantity))
+        InventoryModel.update_stock(int(inventoryid), int(quantity))
 
     return redirect(url_for('inventory'))
 
-    return redirect(url_for('inventory'))
 
 
 @app.route('/view_sales/<int:id>',methods = ['GET'])
@@ -95,6 +101,8 @@ def view_sales(id):
 @app.route('/contacts')
 def contacts():
     return render_template('contacts.html')
+
+
 
 
 
