@@ -1,6 +1,5 @@
 #importing the db object from main.py file
 from main import db
-import pygal
 from sqlalchemy.sql import func
 
 
