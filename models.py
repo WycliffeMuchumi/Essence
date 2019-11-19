@@ -35,10 +35,10 @@ class InventoryModel(db.Model):
             db.session.commit()
             return True
 
-    # @classmethod
-    # def getTypeCount(cls,name):
-    #     record = cls.query.filter_by(producttype=name).count()
-    #     return record
+    @classmethod
+    def getTypeCount(cls,name):
+        record = cls.query.filter_by(producttype=name).count()
+        return record
 
 from datetime import datetime
 class SalesModel(db.Model):

@@ -2,15 +2,7 @@
 {% block title %}Essence {% endblock %}
 {% block content %}
     <br>
-
-    <div class="jumbotron">
-        <h2 class="display-3">INVENTORY WEB APPLICATION</h2>
-        <p class="lead">We are a company that has existed for 2500 years and still have not sold any inventory.</p>
-        <hr class="my-4">
-        <p>but we hope too!.</p>
-        <a class="btn btn-primary btn-lg" href="/about" role="button">About</a>
-    </div>
-    <div class="container" align="left">
-    <embed type="image/svg+xml" src="{{ graph_data|safe }} style='max-width:500px'/>
-    </div>
+      <div class="container" align="left">
+			<embed type="image/svg+xml" src={{pie_type|safe}} style='max-width:1000px'/>
+	  </div>
 {% endblock %}

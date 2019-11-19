@@ -1,12 +1,13 @@
 from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from configs.config import Development, Production
+import pygal
 
 app = Flask(__name__)
 
 # configs
 
-app.config.from_object(Development)
+app.config.from_object(Production)
 
 # sqlAlchemy instance
 
@@ -25,13 +26,12 @@ def create_table():
 
 @app.route('/')
 def home():
-    return render_template('index.html')
-        # pie_chart = pygal.Pie()
-        # pie_chart.title = 'Browser usage in February 2012 (in %)'
-        # pie_chart.add('product', InventoryModel.getTypeCount("product"))
-        # pie_chart.add('service', InventoryModel.getTypeCount("service"))
-        # pie_type = pie_chart.render_data_uri()
-        # return render_template('index.html', pie_type=pie_type)
+    pie_chart = pygal.Pie()
+    pie_chart.title = 'Sales and products done in the year 2019 (in %)'
+    pie_chart.add('product', InventoryModel.getTypeCount("product"))
+    pie_chart.add('service', InventoryModel.getTypeCount("service"))
+    pie_type = pie_chart.render_data_uri()
+    return render_template('index.html', pie_type=pie_type)
 
 
 @app.route('/about')
