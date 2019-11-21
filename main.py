@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from configs.config import Development, Production
 import pygal
+import psycopg2
 
 app = Flask(__name__)
 
@@ -24,14 +25,47 @@ def create_table():
     # db.drop_all()
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def home():
     pie_chart = pygal.Pie()
     pie_chart.title = 'Sales and products done in the year 2019 (in %)'
     pie_chart.add('product', InventoryModel.getTypeCount("product"))
     pie_chart.add('service', InventoryModel.getTypeCount("service"))
-    pie_type = pie_chart.render_data_uri()
-    return render_template('index.html', pie_type=pie_type)
+    graph_data = pie_chart.render_data_uri()
+
+
+    conn = psycopg2.connect("dbname='Essence' user='postgres' host='localhost' password='12121994'")
+
+    cur = conn.cursor()
+    cur.execute("""SELECT(sum(i.buyingprice * s.quantity)) as subtotal,(EXTRACT(MONTH FROM s.time_created)) as sales_month
+from sales as s
+join inventories as i on s.inventoryid=i.id
+GROUP BY sales_month
+ORDER BY sales_month""")
+    rows = cur.fetchall()
+
+    x = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    y = []
+    for row in rows:
+        # x.append(row[1])
+        y.append(row[0])
+
+    line = pygal.Line()
+    line.title = '%Sales and products done in the year 2019.'
+    line.x_labels = map(str, x)
+    line.add('SubTotal', y)
+    line_data = line.render_data_uri()
+
+    linec = pygal.Bar()
+    linec.title = '%%Sales and products done in the year 2019.'
+    linec.x_labels = map(str, x)
+    linec.add('SubTotal', y)
+    linec = linec.render_data_uri()
+
+
+
+
+    return render_template('index.html', graph_data=graph_data, line_data=line_data, linec=linec)
 
 
 @app.route('/about')
@@ -61,7 +95,8 @@ def insert_inventory():
         print(sp)
         print(s)
         print(rp)
-        product_one = InventoryModel(productname=pn, producttype=pt, serialnumber=sn, buyingprice=bp, sellingprice=sp, stock=s, reorderpoint=rp)
+        product_one = InventoryModel(productname=pn, producttype=pt, serialnumber=sn, buyingprice=bp, sellingprice=sp,
+                                     stock=s, reorderpoint=rp)
         product_one.create_record()
 
         return redirect(url_for('inventory'))
@@ -83,28 +118,21 @@ def sales():
     return redirect(url_for('inventory'))
 
 
-
-@app.route('/view_sales/<int:id>',methods = ['GET'])
+@app.route('/view_sales/<int:id>', methods=['GET'])
 def view_sales(id):
     inventory = InventoryModel.get_inventory_by_id(id)
 
-    #print(inventory.sale)
-    #print(type(inve))
+    # print(inventory.sale)
+    # print(type(inve))
 
     sale_of_product = inventory.sale
 
-    return render_template('sales.html',s_o_p=sale_of_product)
-
-
+    return render_template('sales.html', s_o_p=sale_of_product)
 
 
 @app.route('/contacts')
 def contacts():
     return render_template('contacts.html')
-
-
-
-
 
 
 if __name__ == '__main__':
