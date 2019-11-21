@@ -35,7 +35,8 @@ def home():
 
 
 
-    conn = psycopg2.connect("dbname='Essence' user='postgres' host='localhost' password='12121994'")
+    conn = psycopg2.connect("dbname='d36lve8t356t1v' user='blufcyfuephvbf' host='ec2-176-34-184-174.eu-west-1.compute.amazonaws.com' password='f6bb9cce21036c899c21ea893eb19ef5568e2ef2c22316547c6ee5f3f149206a'")
+    # conn = psycopg2.connect("dbname='Essence' user='postgres' host='localhost' password='12121994'")
 
     cur = conn.cursor()
     cur.execute("""SELECT(sum(i.buyingprice * s.quantity)) as subtotal,(EXTRACT(MONTH FROM s.time_created)) as sales_month
