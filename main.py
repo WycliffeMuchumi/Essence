@@ -34,6 +34,7 @@ def home():
     graph_data = pie_chart.render_data_uri()
 
 
+
     conn = psycopg2.connect("dbname='Essence' user='postgres' host='localhost' password='12121994'")
 
     cur = conn.cursor()
