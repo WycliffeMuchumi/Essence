@@ -16,10 +16,10 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/add" method='POST'>
+                    <form action="/save/{{inventories.id}}" method='POST'>
                         <div class="form-group">
                             <label for="product_name">ProductName</label>
-                            <input type="text" class="form-control"  name="product_name" id="product_name"
+                            <input type="text" class="form-control"  value="{{ inventory.ProductName }}" name="product_name" id="product_name"
                                    placeholder="Enter ProductName">
                         </div>
                         <div class="form-group col-md-4">
@@ -97,12 +97,12 @@
 
                         {{ inventory.stock }}</td>
                     <td>{{ inventory.reorderpoint }}</td>
-                    <td><a href="/edit/{{ inventory.id }}"></a><button type="button" class="btn btn-warning" data-toggle="modal"
+                    <td><button type="button" class="btn btn-warning" data-toggle="modal"
                                 data-target="#exampleEdit">Edit
                         </button></td>
-                    <td><a href="/delete/{{ inventory.id }}"><button type="button" class="btn btn-warning" data-toggle="modal"
+                    <td><button type="button" class="btn btn-warning" data-toggle="modal"
                                 data-target="#exampleDelete">Delete
-                    </button></a></td>
+                        </button></td>
                     <td>
                         <button type="button" class="btn btn-primary" data-toggle="modal"
                                 data-target="#exampleSale{{ inventory.id }}">sell

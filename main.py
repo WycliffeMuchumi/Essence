@@ -34,7 +34,6 @@ def home():
     graph_data = pie_chart.render_data_uri()
 
 
-
     conn = psycopg2.connect("dbname='d36lve8t356t1v' user='blufcyfuephvbf' host='ec2-176-34-184-174.eu-west-1.compute.amazonaws.com' password='f6bb9cce21036c899c21ea893eb19ef5568e2ef2c22316547c6ee5f3f149206a'")
     # conn = psycopg2.connect("dbname='Essence' user='postgres' host='localhost' password='12121994'")
 
@@ -106,6 +105,27 @@ def insert_inventory():
         return render_template('inventory.html')
 
 
+@app.route('/edit/<int:id>')
+def edit(id):
+    inventories = inventory.get(inventory.id == id)
+    return render_template('edit.html', inventories=inventories)
+
+@app.route('/save/<int:id>',methods=['POST'])
+def save(id):
+    inventories=inventory.get(inventory.id==id)
+    if request.method == 'POST':
+        inventory.ProductName = request.form['product_name']
+        inventory.ProductType = request.form['product_type']
+        inventory.SerialNumber = request.form['serial_no']
+        inventory.BuyingPrice = request.form['buying_price']
+        inventory.SellingPrice = request.form['selling_price']
+        inventory.Stock = request.form['stock']
+        inventory.ReorderPoint = request.form['reorder_point']
+        inventory.save()
+        return render_template(url_for('inventory'))
+
+
+
 @app.route('/sell', methods=['POST', 'GET'])
 def sales():
     sales = SalesModel.query.all()
@@ -118,6 +138,14 @@ def sales():
         InventoryModel.update_stock(int(inventoryid), int(quantity))
 
     return redirect(url_for('inventory'))
+
+@app.route('/delete/<int:id>')
+def delete(id):
+    inventories = inventory.get(inventory.id == id)
+    inventories.delete_instance()
+    return redirect(url_for('inventory'))
+
+
 
 
 @app.route('/view_sales/<int:id>', methods=['GET'])
