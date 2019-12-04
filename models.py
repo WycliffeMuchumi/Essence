@@ -22,9 +22,11 @@ class InventoryModel(db.Model):
         db.session.add(self)
         db.session.commit()
 
+
     @classmethod
     def get_inventory_by_id(cls, id):
         return InventoryModel.query.filter_by(id=id).first()
+
 
     # we first need to fetch the stock to be updated,update stock and pass the id and quantity
     @classmethod
@@ -35,10 +37,42 @@ class InventoryModel(db.Model):
             db.session.commit()
             return True
 
+
     @classmethod
     def getTypeCount(cls,name):
         record = cls.query.filter_by(producttype=name).count()
         return record
+
+    #edit
+    @classmethod
+    def edit_inventory_by_id(cls,id,productname=productname,producttype=producttype, serialnumber=serialnumber, buyingprice=buyingprice, sellingprice=sellingprice, stock=stock, reorderpoint=reorderpoint):
+        record = cls.query.filter_by(id=id).first()
+        if record:
+            record.productname = productname
+            record.producttype=producttype
+            record.serialnumber=serialnumber
+            record.buyingprice=buyingprice
+            record.sellingprice=sellingprice
+            record.stock=stock
+            record.reorderpoint=reorderpoint
+            db.session.commit()
+            return True
+        else:
+            return False
+
+    #delete
+    @classmethod
+    def delete_by_id(cls,id):
+        record=cls.query.filter_by(id=id)
+        if record.first():
+            record.delete()
+            db.session.commit()
+            return True
+        else:
+            return False
+
+
+
 
 from datetime import datetime
 class SalesModel(db.Model):
@@ -47,6 +81,7 @@ class SalesModel(db.Model):
     inventoryid = db.Column(db.Integer, db.ForeignKey('inventories.id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     time_created = db.Column(db.DateTime, default=datetime.utcnow)
+
 
     def create_record(self):
         db.session.add(self)

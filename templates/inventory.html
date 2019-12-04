@@ -16,15 +16,15 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/add/save/{{ inventories.id }}" method='POST'>
+                    <form action="/add" method='POST'>
                         <div class="form-group">
                             <label for="product_name">ProductName</label>
-                            <input type="text" value="{{ inventory.ProductName }}"  class="form-control" name="product_name" id="product_name"
+                            <input type="text" class="form-control" name="product_name" id="product_name"
                                    placeholder="Enter ProductName">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="product_type">ProductType</label>
-                            <select name="product_type" value="{{ inventories.ProductType }}"  class="form-control">
+                            <select name="product_type" class="form-control">
                                 <option selected>Choose...</option>
                                 <option value="service">Service</option>
                                 <option value="product">Product</option>
@@ -32,26 +32,26 @@
                         </div>
                         <div class="form-group">
                             <label for="serial_no">SerialNumber</label>
-                            <input type="number"  class="form-control" name="serial_no" id="serial_no"
+                            <input type="number" class="form-control" name="serial_no" id="serial_no"
                                    placeholder="Enter Serial No.">
                         </div>
                         <div class="form-group">
                             <label for="buying_price">BuyingPrice</label>
-                            <input type="number" value="{{ inventories.BuyingPrice }}"   class="form-control" name="buying_price" id="buying_price"
+                            <input type="number" class="form-control" name="buying_price" id="buying_price"
                                    placeholder="Enter Buying Price">
                         </div>
                         <div class="form-group">
                             <label for="selling_price">SellingPrice</label>
-                            <input type="number" value="{{ inventories.SellingPrice }}"   class="form-control" name="selling_price" id="selling_price"
+                            <input type="number" class="form-control" name="selling_price" id="selling_price"
                                    placeholder="Enter Selling Price">
                         </div>
                         <div class="form-group">
                             <label for="stock">Stock</label>
-                            <input type="number" value="{{ inventories.Stock }}"    class="form-control" name="stock" id="stock" placeholder="Enter Stock">
+                            <input type="number" class="form-control" name="stock" id="stock" placeholder="Enter Stock">
                         </div>
                         <div class="form-group">
                             <label for="reorder_point">ReorderPoint</label>
-                            <input type="number" value="{{ inventories.ReorderPoint }}"   class="form-control" name="reorder_point" id="reorder_point"
+                            <input type="number" class="form-control" name="reorder_point" id="reorder_point"
                                    placeholder="Enter Reorder Point">
                         </div>
                         <div class="form-check">
@@ -98,14 +98,101 @@
                         {{ inventory.stock }}</td>
                     <td>{{ inventory.reorderpoint }}</td>
                     <td>
-                        <a href="/edit/{{ inventories.id }}"><button type="button" class="btn btn-warning" data-toggle="modal"
-                                data-target="#exampleEdit">Edit
-                        </button></a>
+                        <button type="button" class="btn btn-warning" data-toggle="modal"
+                                data-target="#exampleModalEdit">Edit
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModalEdit" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabelEdit">Edit</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/inventory/edit/{{ inventory.id }}" method='POST'>
+                                            <div class="form-group">
+                                                <label for="product_name">ProductName</label>
+                                                <input type="text" class="form-control" name="product_name"
+                                                       id="product_name"
+                                                       value="{{ inventory.productname }}">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="product_type">ProductType</label>
+                                                <select name="product_type" class="form-control">
+                                                    <option selected>{{ inventory.producttype }}</option>
+                                                    <option value="{{ inventory.service }}">Service</option>
+                                                    <option value="{{ inventory.product }}">Product</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="serial_no">SerialNumber</label>
+                                                <input type="number" class="form-control" name="serial_no"
+                                                       id="serial_no"
+                                                       value="{{ inventory.serialnumber }}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="buying_price">BuyingPrice</label>
+                                                <input type="number" class="form-control" name="buying_price"
+                                                       id="buying_price"
+                                                       value="{{ inventory.buyingprice }}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="selling_price">SellingPrice</label>
+                                                <input type="number" class="form-control" name="selling_price"
+                                                       id="selling_price"
+                                                       value="{{ inventory.sellingprice }}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="stock">Stock</label>
+                                                <input type="number" class="form-control" name="stock" id="stock"
+                                                       value="{{ inventory.stock }}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="reorder_point">ReorderPoint</label>
+                                                <input type="number" class="form-control" name="reorder_point"
+                                                       id="reorder_point"
+                                                       value="{{ inventory.reorderpoint }}">
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                     <td>
-                        <a href="/delete/{{ inventories.id }}"><button type="button" class="btn btn-warning" data-toggle="modal"
-                                data-target="#exampleDelete">Delete
-                        </button></a>
+                        <button type="button" class="btn btn-warning" data-toggle="modal"
+                                data-target="#delete{{ inventory.id }}">Delete
+                        </button>
+                        <div class="modal fade" id="delete{{ inventory.id }}" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Delete Inventory</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">x</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/inventory/delete/{{ inventory.id }}" method='POST'>
+                                            <button type="submit" class="btn btn-primary">Delete</button>
+                                        </form>
+                                        <br>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                     <td>
                         <button type="button" class="btn btn-primary" data-toggle="modal"
