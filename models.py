@@ -1,7 +1,7 @@
 #importing the db object from main.py file
 from main import db
+from datetime import datetime
 from sqlalchemy.sql import func
-
 
 
 class InventoryModel(db.Model):
@@ -74,7 +74,6 @@ class InventoryModel(db.Model):
 
 
 
-from datetime import datetime
 class SalesModel(db.Model):
     __tablename__ = 'sales'
     id = db.Column(db.Integer, primary_key=True)
@@ -86,6 +85,3 @@ class SalesModel(db.Model):
     def create_record(self):
         db.session.add(self)
         db.session.commit()
-
-
-
