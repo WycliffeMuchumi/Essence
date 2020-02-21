@@ -168,9 +168,7 @@ def view_sales(id):
     return render_template('sales.html', s_o_p=sale_of_product)
 
 
-@app.route('/contacts')
-def contacts():
-    return render_template('contacts.html')
+
 
 
 if __name__ == '__main__':
